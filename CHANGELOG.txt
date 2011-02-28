@@ -1,0 +1,10 @@
+=== Version 1.2, Nov 02 2010
+*   Upgraded to use HlLib 2.4.0
+
+=== Version 1.1, Jun 11 2010
+*   Upgraded to use HlLib 2.3.0
+*   Added support for "-ex" size variations, but needs additional testing with super-large files to ensure the unsigned/signed C/Java conversions are occurring properly.
+*   64-bit support, automatically determines appropriate DLL to load.
+
+=== Version 1.0, Dec 12 2009
+*   Initial release. Designed against HlLib 2.1.1
