@@ -11,6 +11,7 @@ import java.util.Map;
 import junit.framework.Assert;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -27,8 +28,7 @@ public class AttributeReadingTest {
 
     @BeforeClass
     public static void BeforeClass() throws Exception{
-        String path = new File(AttributeReadingTest.class.getClassLoader().getResource(".").toURI()).getAbsolutePath();
-        System.setProperty("jna.library.path",path);
+        DllPathFinder.setJnaPathPath();
         fixture = HlLib.getLibrary();
     }
 
@@ -73,16 +73,33 @@ public class AttributeReadingTest {
             Assert.assertEquals(expected.get(attrib), holder.getJavaData());
         }
 
+        /* Fragmentation test is not reliable across machines with different
+         * copies of the GCF.
+         */        
+    }
+
+    @Ignore // Not a reliable test since GCFs can be defragmented or redownloaded
+    @Test
+    public void readGcfFragmentation() throws Exception{
+
+        final float EXPECTED_FRAG = 1.1019284f;
+        final String TEST_FILE_NAME = "steamclient.dll";
+
+        File target = new File(GcfFinder.getTestGcf().toURI());
+        HlPackage pkg = makePackage(fixture, target);
+
+        Attribute holder = new Attribute();
+        
         DirectoryItem root = fixture.packageGetRoot();
         for (DirectoryItem child : root.getChildren()) {
-            if (child.getName().equals("steamclient.dll")) {
+            if (child.getName().equals(TEST_FILE_NAME)) {
                 fixture.packageGetItemAttribute(child, PackageAttribute.GCF_ITEM_FRAGMENTATION, holder);
                 float actual_frag = (Float)holder.getJavaData();
-                float expected_frag = 1.1019284f;
-                Assert.assertTrue(Math.abs(actual_frag - expected_frag) < 0.001);
+                Assert.assertTrue(Math.abs(actual_frag - EXPECTED_FRAG) < 0.001);
             }
-
         }
+
+
     }
 
     @Test

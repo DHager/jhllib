@@ -1,0 +1,5 @@
+# Ignore temporary build dir
+target/**
+
+#Almost all GCFs are copyrighted and can't be redistributed
+**.gcf

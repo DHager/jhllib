@@ -28,9 +28,7 @@ public class ExtractTest {
 
     @BeforeClass
     public static void BeforeClass() throws Exception {
-        String path = new File(ExtractTest.class.getClassLoader().getResource(".").toURI()).getAbsolutePath();
-        System.setProperty("jna.library.path", path);
-
+        DllPathFinder.setJnaPathPath();
         fixture = HlLib.getLibrary();
 
     }

@@ -30,9 +30,7 @@ public class FileListingTest {
 
     @BeforeClass
     public static void BeforeClass() throws Exception {
-        String path = new File(FileListingTest.class.getClassLoader().getResource(".").toURI()).getAbsolutePath();
-        System.setProperty("jna.library.path",path);
-
+        DllPathFinder.setJnaPathPath();
         fixture = HlLib.getLibrary();
         
         

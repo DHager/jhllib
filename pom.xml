@@ -4,30 +4,60 @@
     <groupId>com.technofovea</groupId>
     <artifactId>jhllib</artifactId>
     <packaging>jar</packaging>
-    <version>1.3</version>
-    <name>JHlLib</name>
-    <url>https://sourceforge.net/projects/jhllib/</url>
+    <version>1.3.1-Beta</version>
+    <name>jhllib</name>
+    <url>https://github.com/dhager/jhllib/</url>
+    <description>
+        jhllib is a bridge interface allowing Java code to call and use native 
+        HLLib libraries. This allows Java code to access a variety of file
+        formats used by Valve Software and their "Source" game engine.
+    </description>
 
-    <scm>
-        <connection>scm:svn:https://jhllib.svn.sourceforge.net/svnroot/jhllib/jhllib/trunk</connection>
-        <developerConnection>scm:svn:https://jhllib.svn.sourceforge.net/svnroot/jhllib/jhllib/trunk</developerConnection>
-        <tag>HEAD</tag>
-        <url>http://jhllib.svn.sourceforge.net/viewvc/jhllib/jhllib/trunk</url>
-    </scm>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
-    <issueManagement>
-        <system>sourceforge</system>
-        <url>https://sourceforge.net/tracker/?group_id=292134</url>
-    </issueManagement>
+    <repositories>
+        <repository>
+            <id>dhager-github</id>
+            <name>DHager's Github Maven Repository</name>
+            <url>http://dhager.github.com/mvn-repo/releases</url>
+        </repository>
+    </repositories>
 
-<!--
-  <distributionManagement>
-    <site>
-      <id>jhllib.sf.net</id>
-      <url>scp://shell.sourceforge.net/home/groups/j/jh/jhllib/htdocs</url>
-    </site>
-  </distributionManagement>
--->
+    <distributionManagement>
+        <repository>
+            <!--
+            This does not reference a "real" maven repository, but instead
+            a local folder which is externally managed and uploaded through
+            other means.
+            -->
+            <name>Local repository for later upload (releases)</name>
+            <id>temp-repo</id>
+            <url>file://${basedir}/../mvn-repo/releases</url>
+        </repository>
+        <snapshotRepository>
+            <!--
+            This does not reference a "real" maven repository, but instead
+            a local folder which is externally managed and uploaded through
+            other means.
+            -->
+            <name>Local repository for later upload (snapshots)</name>
+            <id>temp-repo-snapshots</id>
+            <url>file://${basedir}/../mvn-repo/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <licenses>
+        <license>
+            <name>LGPL 2.1</name>
+            <url>http://www.gnu.org/licenses/lgpl-2.1.html</url>
+            <distribution>repo</distribution>
+            <comments>GNU Lesser General Public License, version 2.1</comments>
+        </license>
+    </licenses>
+
+
     <build>
         <plugins>
             <plugin>
@@ -48,7 +78,27 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
@@ -63,7 +113,7 @@
                     </archive>
                 </configuration>
             </plugin>
-                        
+            
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
@@ -77,14 +127,15 @@
                         <id>assemble-when-packagings</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>attached</goal>
+                            <goal>single</goal>
                         </goals>
                     </execution>
                 </executions>
-
             </plugin>
+            
         </plugins>
     </build>
+
     <dependencies>
 
         <dependency>
@@ -122,5 +173,6 @@
             <scope>test</scope>
         </dependency>
 
-    </dependencies>
+    </dependencies>    
 </project>
+
